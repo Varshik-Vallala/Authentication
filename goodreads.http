@@ -1,0 +1,30 @@
+GET http://localhost:3000/books/
+
+
+###
+
+POST http://localhost:3000/register/
+Content-Type: application/json
+
+{   
+    "name":"rahul",
+    "username":"rahul12",
+    "password": "rahul@456",
+    "gender": "Male",
+    "location":"hyderabad"
+}
+
+
+###
+
+POST http://localhost:3000/login/
+Content-Type: application/json
+
+{
+    "username":"rahul12",
+    "password": "rahul@456"
+}
+
+
+###
+GET http://localhost:3000/users/
