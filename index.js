@@ -79,7 +79,7 @@ app.post("/login/", async (request, response) => {
 
   const dbUser = await db.get(selectUserQuery);
 
-  console.log(dbUser);
+  //   console.log(dbUser);
 
   if (dbUser === undefined) {
     response.status(400);
@@ -89,6 +89,7 @@ app.post("/login/", async (request, response) => {
 
     if (isPasswordMatched === true) {
       response.send("Login Success");
+      console.log(response);
     } else {
       response.status(400);
       response.send("Invalid Password");
@@ -104,4 +105,24 @@ app.get("/users/", async (request, response) => {
   const allUsers = await db.all(selectUsersQuery);
 
   response.send(allUsers);
+});
+
+// Inserting Data
+
+app.post("/data/", async (request, response) => {
+  const { userId, id, title, body } = request.body;
+  //   console.log(id);
+
+  const insertDataQuery = `
+        INSERT INTO data(userId, id, title, body)
+        VALUES(
+            ${userId},
+            ${id},
+            '${title}',
+            '${body}'
+        );
+        `;
+
+  await db.run(insertDataQuery);
+  response.send("Data inserted successfully");
 });
