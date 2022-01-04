@@ -109,20 +109,59 @@ app.get("/users/", async (request, response) => {
 
 // Inserting Data
 
+// app.post("/data/", async (request, response) => {
+//   const { userDetails } = request.body;
+//   //   console.log(id);
+
+//   const insertDataQuery = `
+//         INSERT INTO data(userId, id, title, body)
+//         VALUES(
+//             ${userId},
+//             ${id},
+//             '${title}',
+//             '${body}'
+//         );
+//         `;
+
+//   await db.run(insertDataQuery);
+//   response.send("Data inserted successfully");
+// });
+
 app.post("/data/", async (request, response) => {
-  const { userId, id, title, body } = request.body;
-  //   console.log(id);
+  const userDetails = request.body;
 
-  const insertDataQuery = `
-        INSERT INTO data(userId, id, title, body)
-        VALUES(
-            ${userId},
-            ${id},
-            '${title}',
-            '${body}'
-        );
-        `;
+  //   console.log(userDetails);
 
-  await db.run(insertDataQuery);
-  response.send("Data inserted successfully");
+  const values = userDetails.map(
+    (eachUser) =>
+      `(${eachUser.userId}, ${eachUser.id}, '${eachUser.title}', '${eachUser.body}')`
+  );
+
+  const valuesString = values.join(",");
+  //   console.log(valuesString);
+
+  const addUserQuery = `
+   INSERT INTO data(userId, id, title, body)
+   VALUES
+       ${valuesString};`;
+
+  const dbResponse = await db.run(addUserQuery);
+  const bookId = await dbResponse.lastID;
+  response.send({ userId: bookId });
+});
+
+//  "userId":1,
+//     "id":12,
+//     "title": "QWERTY",
+//     "body":"hyderabad fj ljafje f.aefjhae fb,bhfha kjefhurhf"
+
+// Get Users Data
+
+app.get("/data/", async (request, response) => {
+  const getSelectUsersQuery = `
+    SELECT * FROM data;
+    `;
+
+  const allUsers = await db.all(getSelectUsersQuery);
+  response.send(allUsers);
 });
