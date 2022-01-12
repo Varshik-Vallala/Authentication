@@ -89,7 +89,7 @@ app.post("/login/", async (request, response) => {
 
     if (isPasswordMatched === true) {
       response.send("Login Success");
-      console.log(response);
+      //   console.log(response);
     } else {
       response.status(400);
       response.send("Invalid Password");
