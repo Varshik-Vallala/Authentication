@@ -146,8 +146,8 @@ app.post("/data/", async (request, response) => {
        ${valuesString};`;
 
   const dbResponse = await db.run(addUserQuery);
-  const bookId = await dbResponse.lastID;
-  response.send({ userId: bookId });
+  const userDataId = await dbResponse.lastID;
+  response.send({ userId: userDataId });
 });
 
 //  "userId":1,
